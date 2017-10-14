@@ -1,4 +1,4 @@
-(require '[clj-http.client :as http]
+(require '[clojure.java.io :as io]
          '[clojure.java.shell :refer [sh]]
          '[clojure.string :as str])
 
@@ -9,11 +9,11 @@
   (sh "bash" "-c" (str "twurl -d 'status=" msg "' /1.1/statuses/update.json")))
 
 ;; github
-(def quotes (->> (http/get "https://api.github.com/repos/icy/fortune-vn/contents/data"
-                           {:headers {"User-Agent" "fortune-vn"}
-                            :as      :json})
-                 :body
-                 (map (comp slurp :download_url))
+(def quotes (->> (io/file "../fortune-vn/data")
+                 file-seq
+                 (filter #(.isFile %))
+                 (filter #(re-matches #".*\.txt$" (.getName %)))
+                 (map slurp)
                  (mapcat #(str/split % #"\n%\n"))
                  (map str/trim)))
 
