@@ -19,7 +19,7 @@
 
 ;; main
 (let [quote (->> quotes
-                 (filter #(<= (count %) 140))
+                 (filter #(.isValidTweet (com.twitter.Validator.) %))
                  (remove #(contains? tweets %))
                  rand-nth)]
   (println "twitting quote:\n" quote)
