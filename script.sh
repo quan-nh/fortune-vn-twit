@@ -5,7 +5,9 @@ git pull
 
 cd ../fortune-vn-twit
 QUOTE="$(clj fortune.clj)"
-#echo "$QUOTE"
-twurl -d "status=$QUOTE" /1.1/statuses/update.json
+echo "$QUOTE"
+TW_ID=$(twurl -d "status=$QUOTE" /1.1/statuses/update.json | jq '.id_str' | bc)
+echo $TW_ID
+twurl -d "id=$TW_ID" /1.1/favorites/create.json
 echo "$QUOTE" >>tweets.txt
 echo "%" >>tweets.txt
