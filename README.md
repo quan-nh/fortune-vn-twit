@@ -9,3 +9,5 @@ Twitter Bot for https://github.com/icy/fortune-vn
 
 ## Deps
 - [twitter-text](https://github.com/twitter/twitter-text/)
+
+** notes: Twitter API return large integers IDs, neither [jq](https://github.com/stedolan/jq/issues/369) nor [js](https://developer.twitter.com/en/docs/basics/twitter-ids) could handle it (too bad 🙈). Clj to the Rescue!
