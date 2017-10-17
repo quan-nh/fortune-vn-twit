@@ -15,6 +15,10 @@
   #?(:clj (map #(.getName %) (file-seq (io/file dir)))
      :cljs (fs/readdirSync dir)))
 
+(defn valid-tweet? [text]
+  #?(:clj  (.isValidTweet (com.twitter.Validator.) text)
+     :cljs (.isValidTweetText twitter text)))
+
 (def tweets (into #{} (str/split (read-file "tweets.txt") #"\n%\n")))
 
 (def quotes (->> (read-dir "../fortune-vn/data")
@@ -22,10 +26,6 @@
                  (map #(read-file (str "../fortune-vn/data/" %)))
                  (mapcat #(str/split % #"\n%\n"))
                  (map str/trim)))
-
-(defn valid-tweet? [text]
-  #?(:clj  (.isValidTweet (com.twitter.Validator.) text)
-     :cljs (.isValidTweetText twitter text)))
 
 (print (->> quotes
             (filter valid-tweet?)
