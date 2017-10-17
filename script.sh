@@ -4,7 +4,7 @@ cd ../fortune-vn
 git pull
 
 cd ../fortune-vn-twit
-QUOTE="$(clj fortune.clj)"
+QUOTE="$(lumo fortune.cljc)"
 echo "$QUOTE"
 TW_ID=$(twurl -d "status=$QUOTE" /1.1/statuses/update.json | jq '.id_str' | bc)
 echo $TW_ID
