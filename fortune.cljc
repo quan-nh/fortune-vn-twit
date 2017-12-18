@@ -16,8 +16,8 @@
      :cljs (fs/readdirSync dir)))
 
 (defn valid-tweet? [text]
-  #?(:clj  (.isValidTweet (com.twitter.Validator.) text)
-     :cljs (.isValidTweetText twitter text)))
+  #?(:clj  (.isValid (com.twitter.twittertext.TwitterTextParser/parseTweet text))
+     :cljs (:valid (js->clj (.parseTweet twitter text) :keywordize-keys true))))
 
 (def tweets (into #{} (str/split (read-file "tweets.txt") #"\n%\n")))
 
